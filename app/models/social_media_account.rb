@@ -23,8 +23,4 @@ class SocialMediaAccount < ApplicationRecord
   def display_name
     title.presence || service_name
   end
-
-  def locale
-    locale.presence || "en"
-  end
 end
