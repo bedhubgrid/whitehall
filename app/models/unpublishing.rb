@@ -61,6 +61,8 @@ class Unpublishing < ApplicationRecord
   def alternative_path
     return if alternative_uri.nil?
 
+    return alternative_uri.to_s unless alternative_uri_matches_gov_uk?
+
     path = alternative_uri.path
     path << "##{alternative_uri.fragment}" if alternative_uri.fragment.present?
     path
@@ -88,5 +90,9 @@ private
 
   def ensure_presence_of_content_id
     self.content_id ||= SecureRandom.uuid
+  end
+
+  def alternative_uri_matches_gov_uk?
+    %r{\A#{Whitehall.public_protocol}://#{Whitehall.public_host}/}.match?(alternative_uri)
   end
 end
