@@ -12,9 +12,9 @@ inherit_mode:
 # STDOUT using 'puts'.
 Rails/Output:
   Exclude:
-    - 'db/data_migration/*.rb'
+    
 
 # This alerts on methods that aren't introduced until rails 6.0
 # it should be removed when we upgrade.
 Style/HashEachMethods:
-  Enabled: false
+  Enabled: true
