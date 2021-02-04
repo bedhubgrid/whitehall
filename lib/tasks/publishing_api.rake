@@ -251,6 +251,18 @@ namespace :publishing_api do
     end
   end
 
+  desc "Republish all statistics which have HTML attachments to the Publishing API"
+  task republish_stats_with_html_attachments: :environment do
+    document_ids = Publication
+      .publicly_visible
+      .where(publication_type_id: [5, 15])
+      .where(id: HtmlAttachment.where(attachable_type: "Edition").select(:attachable_id))
+      .pluck(:document_id)
+    document_ids.each do |document_id|
+      PublishingApiDocumentRepublishingWorker.perform_async_in_queue("bulk_republishing", document_id, true)
+    end
+  end
+
   desc "Bulk republishing"
   namespace :bulk_republish do
     desc "Republish all documents of a given type, eg 'NewsArticle'"
