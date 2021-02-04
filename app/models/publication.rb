@@ -148,7 +148,7 @@ class Publication < Publicationesque
     )
   end
 
-  def html_attachment_type
+  def path_name
     statistics? ? "statistics" : "publication"
   end
 
